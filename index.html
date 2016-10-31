@@ -3,32 +3,41 @@
   <head>
   	<meta charset="UTF-8">
   	<title>Commuter</title>
+    <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="vendor/autocomplete.js"></script>
     <script src="vendor/distance.js"></script>
 
+    
+    <script src="script.js"></script>
     <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>
     <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
-    <script src="script.js"></script>
   
     <link rel="stylesheet" type="text/css" href="vendor/autocomplete.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body ng-controller="mainController">
-  <!-- Start -->
+    <!-- Start -->
     <input type="text" 
            g-places-autocomplete 
            options=autocompleteOptions 
            ng-model="origin" 
            ng-change="onChange()"/>
-  <!-- End -->
+    <!-- End -->
     <input type="text" 
            g-places-autocomplete 
            options=autocompleteOptions 
            ng-model="destination" 
            ng-change="onChange()"/>
-    <button ng-click="getDistance()">Submit</button>
+    
+    <!-- car info -->
+    <select car-query name="car-years" id="car-years" ng-model="car.year"></select>
+    <select car-query name="car-makes" id="car-makes" ng-model="car.make"></select> 
+    <select car-query name="car-models" id="car-models" ng-model="car.model"></select>
+
+    <button ng-click="submit()">Submit</button>
     <div>{{duration}}</div>
     <div>{{distance}}</div>
   </body>
