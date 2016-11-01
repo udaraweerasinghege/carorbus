@@ -5,7 +5,7 @@ var app = angular.module('app', ['google.places', 'angular.google.distance']);
 
 // configure the module.
 // in this example we will create a greeting filter
-app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', function($scope, $http, DistanceAPI) {
+app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', function($scope, $http, DistanceAPI, $q) {
   // set google maps to only work with canada.
   $scope.car = {
     make: null,
@@ -18,16 +18,20 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', functi
   };
 
   $scope.submit = function() {
-    console.log($scope.car)
     var distanceArgs = {
       origins: [$scope.origin['formatted_address']],
       destinations: [$scope.destination['formatted_address']]
     };
-    `https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${$scope.car.model}/${scope.car.model}/styles?fmt=json&api_key=${carInfoApiKey}`;
-    DistanceAPI.getDistanceMatrix(distanceArgs)
-    .then(function(resp) {
+    var promises = [DistanceAPI.getDistanceMatrix(distanceArgs)];
+    var carInfoReq = $http.get(`https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${$scope.car.model}/${$scope.car.year}/styles?api_key=${carInfoApiKey}`);
+    promises.push(carInfoReq);
+
+    $q.all(promises)
+    .then(function(values) {
+      console.log(values);
       // this will have lat and long
-      let element = resp.rows[0].elements[0];
+      let distanceMatrixResp = values[0];
+      let element = distanceMatrixResp.rows[0].elements[0];
       $scope.duration = element.duration.text;
       $scope.distance = element.distance.text;
     })
