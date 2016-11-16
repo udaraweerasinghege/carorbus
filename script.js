@@ -29,19 +29,16 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
       };
       var promises = [DistanceAPI.getDistanceMatrix(distanceArgs)];
       var carInfoReq = $http.get(`https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${$scope.car.model}/${$scope.car.year}/styles?api_key=${carInfoApiKey}`);
-      var gasInfoReq = $http.jsonp(`http://api.mygasfeed.com/stations/radius/${lat}/${long}/10/reg/price/rfej9napna`, {})
       promises.push(carInfoReq);
-      promises.push(gasInfoReq);
-
       $q.all(promises)
-      .then(function(values) {
-        console.log(values);
-        // this will have lat and long
-        var distanceMatrixResp = values[0];
-        var element = distanceMatrixResp.rows[0].elements[0];
-        $scope.duration = element.duration.text;
-        $scope.distance = element.distance.text;
-      })
+        .then(function(values) {
+          console.log(values);
+          // this will have lat and long
+          var distanceMatrixResp = values[0];
+          var element = distanceMatrixResp.rows[0].elements[0];
+          $scope.duration = element.duration.text;
+          $scope.distance = element.distance.text;
+        })
     })
     
   };
