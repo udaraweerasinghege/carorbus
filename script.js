@@ -18,23 +18,32 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
   };
 
   $scope.submit = function() {
-    var distanceArgs = {
-      origins: [$scope.origin['formatted_address']],
-      destinations: [$scope.destination['formatted_address']]
-    };
-    var promises = [DistanceAPI.getDistanceMatrix(distanceArgs)];
-    var carInfoReq = $http.get(`https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${$scope.car.model}/${$scope.car.year}/styles?api_key=${carInfoApiKey}`);
-    promises.push(carInfoReq);
+    $http.get('http://ipinfo.io')
+    .then(function(locationResp) {
+      var locationData = locationResp.data.loc.split(',');
+      var lat = locationData[0];
+      var long = locationData[1];
+      var distanceArgs = {
+        origins: [$scope.origin['formatted_address']],
+        destinations: [$scope.destination['formatted_address']]
+      };
+      var promises = [DistanceAPI.getDistanceMatrix(distanceArgs)];
+      var carInfoReq = $http.get(`https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${$scope.car.model}/${$scope.car.year}/styles?api_key=${carInfoApiKey}`);
+      var gasInfoReq = $http.jsonp(`http://api.mygasfeed.com/stations/radius/${lat}/${long}/10/reg/price/rfej9napna`, {})
+      promises.push(carInfoReq);
+      promises.push(gasInfoReq);
 
-    $q.all(promises)
-    .then(function(values) {
-      console.log(values);
-      // this will have lat and long
-      let distanceMatrixResp = values[0];
-      let element = distanceMatrixResp.rows[0].elements[0];
-      $scope.duration = element.duration.text;
-      $scope.distance = element.distance.text;
+      $q.all(promises)
+      .then(function(values) {
+        console.log(values);
+        // this will have lat and long
+        var distanceMatrixResp = values[0];
+        var element = distanceMatrixResp.rows[0].elements[0];
+        $scope.duration = element.duration.text;
+        $scope.distance = element.distance.text;
+      })
     })
+    
   };
 
   function display() {
