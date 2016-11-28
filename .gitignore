@@ -1,1 +1,5 @@
 .DS_Store
+*.zip
+bs4
+*.dist-info
+*.egg-info
