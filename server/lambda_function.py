@@ -21,14 +21,15 @@ def lambda_handler(event, context):
     for control in br.form.controls:
         if control.type=='text':
             control.value = event['postal_code']
+            print(event['postal_code'])
     resp = br.submit()
 
-    
     soup = BeautifulSoup(resp, 'html.parser')
     avg_price_tag = soup.find("h4", text=re.compile(r'Average Price'))
     avg_price = avg_price_tag.findNext('div').contents[0].strip()
     return {
         "statusCode": 200,
-        "headers": {},
-        "body": avg_price
+        "headers": {"Access-Control-Allow-Origin": "*"},
+        "body": avg_price,
+        "request": event
     }
