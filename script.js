@@ -29,13 +29,33 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
         origins: [$scope.origin['formatted_address']],
         destinations: [$scope.destination['formatted_address']]
       };
-      var promises = [DistanceAPI.getDistanceMatrix(distanceArgs)];
+
+
+      var distanceReq = DistanceAPI.getDistanceMatrix(distanceArgs);      
       var carInfoReq = $http.get(`https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${$scope.car.model}/${$scope.car.year}/styles?api_key=${carInfoApiKey}&view=full`);
-      promises.push(carInfoReq);
+
+      // get city info.
+      var city;
+      var province;
+      for (let item of $scope.origin.address_components) {
+        if (item.types.join() === 'locality,political' && !city) {
+          city = item.long_name ? item.long_name : null;
+        } 
+        if (item.types.join() === 'administrative_area_level_1,political' && !province) {
+          province = item.long_name ? item.long_name : null;
+        }
+        
+      }
+      console.log(city, province);
+      var location = `${city}, ${province}`
+      var gasReq = $http.post(gasPriceAPI, {"postal_code": location}, {"Headers": {"Content-Type": "application/json"}}) 
+      
+      var promises = [distanceReq, carInfoReq, gasReq]
       $q.all(promises)
         .then(function(values) {
-          console.log(values);
+          // console.log(values);
           // this will have lat and long
+          console.log(values);
           var distanceMatrixResp = values[0];
           var element = distanceMatrixResp.rows[0].elements[0];
           $scope.duration = element.duration.text;
@@ -44,29 +64,9 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
           var fistCar = values[1].data.styles[0];
           var mpg = fistCar.MPG.city;
           $scope.mpg = mpg;
-
-          var geocoder = new $window.google.maps.Geocoder();
-          geocoder.geocode({'address': $scope.origin['formatted_address']}, function(results, status) {
-            if (results[0]) {
-              for (var i = 0; i < results[0].address_components.length; i++) {
-                  var types = results[0].address_components[i].types;
-
-                  for (var typeIdx = 0; typeIdx < types.length; typeIdx++) {
-                      if (types[typeIdx] == 'postal_code') {
-                          //console.log(results[0].address_components[i].long_name);
-                          var postalCode = results[0].address_components[i].short_name;
-                      }
-                  }
-              }
-            } else {
-              console.log("No results found");
-            }
-            // make request to gasbuddy...
-            $http.post('https://www.gasbuddy.com/Home/Search', {'s': postalCode})
-              .then(items => {
-                console.log(items);
-              }) 
-          });
+          console.log(values[2])
+          $scope.gasPrice = values[2].data.body;
+          
         })
     })
     

@@ -3,4 +3,5 @@
 bs4
 *.dist-info
 *.egg-info
+.vscode
 mechanize/
