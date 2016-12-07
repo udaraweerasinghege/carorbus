@@ -68,10 +68,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
           console.log(values[2])
           this.kmpl = mpg * KMPL_MULTIPLIER;
           $scope.gasPrice = values[2].data.body;
-          this.centsPerLiter = this.gasPrice / this.kmpl;
-          this.centsPerKm = this.centsPerLiter / this.kmpl;
-          
-           
+          this.centsPerKm = this.gasPrice / this.kmpl;
         })
     })
     
