@@ -4,6 +4,7 @@ var carInfoApiKey = 'j2mjhrhftx2k5kpvjmycctkf';
 var gMapsKey = 'AIzaSyB27bkDRtChsWGdiCa1uPPSMqX0z1S0c2E';
 var gasPriceAPI = 'https://wcypeu4s4j.execute-api.us-west-2.amazonaws.com/prod/lambda_handler';
 var app = angular.module('app', ['google.places', 'angular.google.distance']);
+var KMPL_MULTIPLIER = 0.4251;
 
 // configure the module.
 // in this example we will create a greeting filter
@@ -65,15 +66,15 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
           var mpg = fistCar.MPG.city;
           $scope.mpg = mpg;
           console.log(values[2])
+          this.kmpl = mpg * KMPL_MULTIPLIER;
           $scope.gasPrice = values[2].data.body;
+          this.centsPerLiter = this.gasPrice / this.kmpl;
+          this.centsPerKm = this.centsPerLiter / this.kmpl;
           
+           
         })
     })
     
-  };
-
-  function display() {
-
   };
 }]);
 
