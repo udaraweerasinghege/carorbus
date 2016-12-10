@@ -3,8 +3,9 @@ var matrixKey = 'AIzaSyAocy0wxZ_HEmrp2C6iRDsjJzaUSp8MqHU';
 var carInfoApiKey = 'j2mjhrhftx2k5kpvjmycctkf';
 var gMapsKey = 'AIzaSyB27bkDRtChsWGdiCa1uPPSMqX0z1S0c2E';
 var gasPriceAPI = 'https://wcypeu4s4j.execute-api.us-west-2.amazonaws.com/prod/lambda_handler';
-var app = angular.module('app', ['google.places', 'angular.google.distance']);
 var KMPL_MULTIPLIER = 0.4251;
+var app = angular.module('app', ['google.places', 'angular.google.distance']);
+
 
 // configure the module.
 // in this example we will create a greeting filter
@@ -15,7 +16,8 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
     year: null,
     model: null
   }
-
+  $scope.parkingCost = 0;
+  
   $scope.autocompleteOptions = {
     componentRestrictions: { country: 'ca' }
   };
@@ -62,13 +64,16 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
           $scope.duration = element.duration.text;
           $scope.distance = element.distance.text;
 
-          var fistCar = values[1].data.styles[0];
-          var mpg = fistCar.MPG.city;
+          var firstCar = values[1].data.styles[0];
+          var mpg = (parseFloat(firstCar.MPG.city) + parseFloat(firstCar.MPG.highway)) / 2;
           $scope.mpg = mpg;
           console.log(values[2])
-          this.kmpl = mpg * KMPL_MULTIPLIER;
+          this.kmpl = parseFloat(mpg) * KMPL_MULTIPLIER;
           $scope.gasPrice = values[2].data.body;
-          this.centsPerKm = this.gasPrice / this.kmpl;
+          this.centsPerKm = parseFloat($scope.gasPrice) / parseFloat(this.kmpl);
+          this.centsPerTrip = this.centsPerKm * parseFloat($scope.distance);
+          this.dollarsPerTripOneWay = this.centsPerTrip / 100;  
+          $scope.dollarsPerReturnTrip = this.dollarsPerTripOneWay * 2 + parseFloat($scope.parkingCost);
         })
     })
     

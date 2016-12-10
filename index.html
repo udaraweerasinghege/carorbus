@@ -20,28 +20,47 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body ng-controller="mainController">
-    <!-- Start -->
-    <input type="text" 
-           g-places-autocomplete 
-           options=autocompleteOptions 
-           ng-model="origin" 
-           ng-change="onChange()"/>
-    <!-- End -->
-    <input type="text" 
-           g-places-autocomplete 
-           options=autocompleteOptions 
-           ng-model="destination" 
-           ng-change="onChange()"/>
+    <div>
+      Origin
+      <!-- Start -->
+      <input type="text" 
+            g-places-autocomplete 
+            options=autocompleteOptions 
+            ng-model="origin" 
+            ng-change="onChange()"/>
+      <!-- End -->
+      Destination
+      <input type="text" 
+            g-places-autocomplete 
+            options=autocompleteOptions 
+            ng-model="destination" 
+            ng-change="onChange()"/>
+    </div>
     
     <!-- car info -->
-    <select car-query name="car-years" id="car-years" ng-model="car.year"></select>
-    <select car-query name="car-makes" id="car-makes" ng-model="car.make"></select> 
-    <select car-query name="car-models" id="car-models" ng-model="car.model"></select>
+    <div>
+      Car Info: 
+      <select car-query name="car-years" id="car-years" ng-model="car.year"></select>
+      <select car-query name="car-makes" id="car-makes" ng-model="car.make"></select> 
+      <select car-query name="car-models" id="car-models" ng-model="car.model"></select>
+    </div>
 
-    <button ng-click="submit()">Submit</button>
+    <div>
+      Parking Cost in $ per day: 
+      <input ng-model="parkingCost" value="0" type="number"/>
+    </div>
     <div>It will take you {{duration}}</div>
     <div>It is {{distance}} away.</div>
     <div>Your car does {{mpg}} MPG</div>
     <div>Your average gas price is ¢{{gasPrice}}/L</div>
+    <div>Your cost for a return trip per day is {{dollarsPerReturnTrip | currency:"$"}}</div>
+    
+    <div>
+      <h1>Commuting stuff</h1>
+      How much do you pay for transit for a return trip each day? <input type="number" ng-model="transitCost"/> 
+    </div>
+
+    <button ng-click="submit()">Submit</button> 
+    
   </body>
 </html>
