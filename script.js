@@ -8,8 +8,14 @@ var app = angular.module('app', ['google.places', 'angular.google.distance']);
 
 
 // configure the module.
-app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', '$window', function($scope, $http, DistanceAPI, $q, $window) {
+app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', '$window', '$filter', function($scope, $http, DistanceAPI, $q, $window, $filter) {
   // set google maps to only work with canada.
+  function reset() {
+    $scope.showCarForm = true;
+    $scope.showTransitForm = false;
+    $scope.showResults = false;
+  }
+  reset();
   $scope.car = {
     make: null,
     year: null,
@@ -21,61 +27,80 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
     componentRestrictions: { country: 'ca' }
   };
 
-  $scope.submit = function() {
-    $http.get('http://ipinfo.io')
-    .then(function(locationResp) {
-      var locationData = locationResp.data.loc.split(',');
-      var lat = locationData[0];
-      var long = locationData[1];
-      var distanceArgs = {
-        origins: [$scope.origin['formatted_address']],
-        destinations: [$scope.destination['formatted_address']]
-      };
-
-
-      var distanceReq = DistanceAPI.getDistanceMatrix(distanceArgs);      
-      var carInfoReq = $http.get(`https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${$scope.car.model}/${$scope.car.year}/styles?api_key=${carInfoApiKey}&view=full`);
-
-      // get city info.
-      var city;
-      var province;
-      for (let item of $scope.origin.address_components) {
-        if (item.types.join() === 'locality,political' && !city) {
-          city = item.long_name ? item.long_name : null;
-        } 
-        if (item.types.join() === 'administrative_area_level_1,political' && !province) {
-          province = item.long_name ? item.long_name : null;
-        }
-        
+  $scope.submit = () => {
+    $scope.isLoading = true;
+    $scope.showCarForm = false;
+    $scope.showTransitForm = true;
+    var distanceArgs = {
+      origins: [$scope.origin['formatted_address']],
+      destinations: [$scope.destination['formatted_address']]
+    };
+    var distanceReq = DistanceAPI.getDistanceMatrix(distanceArgs);      
+    var carInfoReq = $http.get(`https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${$scope.car.model}/${$scope.car.year}/styles?api_key=${carInfoApiKey}&view=full`);
+    // get city info.
+    var city;
+    var province;
+    for (let item of $scope.origin.address_components) {
+      if (item.types.join() === 'locality,political' && !city) {
+        city = item.long_name ? item.long_name : null;
+      } 
+      if (item.types.join() === 'administrative_area_level_1,political' && !province) {
+        province = item.long_name ? item.long_name : null;
       }
-      console.log(city, province);
-      var location = `${city}, ${province}`
-      var gasReq = $http.post(gasPriceAPI, {"postal_code": location}, {"Headers": {"Content-Type": "application/json"}}) 
       
-      var promises = [distanceReq, carInfoReq, gasReq]
-      $q.all(promises)
-        .then(function(values) {
-          // console.log(values);
-          // this will have lat and long
-          console.log(values);
-          var distanceMatrixResp = values[0];
-          var element = distanceMatrixResp.rows[0].elements[0];
-          $scope.duration = element.duration.text;
-          $scope.distance = element.distance.text;
-
-          var firstCar = values[1].data.styles[0];
-          var mpg = (parseFloat(firstCar.MPG.city) + parseFloat(firstCar.MPG.highway)) / 2;
-          $scope.mpg = mpg;
-          console.log(values[2])
-          this.kmpl = parseFloat(mpg) * KMPL_MULTIPLIER;
-          $scope.gasPrice = values[2].data.body;
-          this.centsPerKm = parseFloat($scope.gasPrice) / parseFloat(this.kmpl);
-          this.centsPerTrip = this.centsPerKm * parseFloat($scope.distance);
-          this.dollarsPerTripOneWay = this.centsPerTrip / 100;  
-          $scope.dollarsPerReturnTrip = this.dollarsPerTripOneWay * 2 + parseFloat($scope.parkingCost);
-        })
-    })
+    }
+    console.log(city, province);
+    var location = `${city}, ${province}`
+    var gasReq = $http.post(gasPriceAPI, {"postal_code": location}, {"Headers": {"Content-Type": "application/json"}}) 
     
+    var promises = [distanceReq, carInfoReq, gasReq]
+    $q.all(promises)
+      .then(function(values) {
+        // console.log(values);
+        // this will have lat and long
+        console.log(values);
+        var distanceMatrixResp = values[0];
+        var element = distanceMatrixResp.rows[0].elements[0];
+        $scope.duration = element.duration.text;
+        $scope.distance = element.distance.text;
+
+        var firstCar = values[1].data.styles[0];
+        var mpg = (parseFloat(firstCar.MPG.city) + parseFloat(firstCar.MPG.highway)) / 2;
+        $scope.mpg = mpg;
+        console.log(values[2])
+        this.kmpl = parseFloat(mpg) * KMPL_MULTIPLIER;
+        $scope.gasPrice = values[2].data.body;
+        this.centsPerKm = parseFloat($scope.gasPrice) / parseFloat(this.kmpl);
+        this.centsPerTrip = this.centsPerKm * parseFloat($scope.distance);
+        this.dollarsPerTripOneWay = this.centsPerTrip / 100;  
+        $scope.dollarsPerReturnTrip = this.dollarsPerTripOneWay * 2 + parseFloat($scope.parkingCost);
+        $scope.isLoading = false;        
+      })
+  };
+  $scope.enterTransitInfo = () => {
+    $scope.showTransitForm = false;
+    // driving is cheaper
+    function complete() {
+      var dollarsPerReturnTrip = parseFloat($scope.dollarsPerReturnTrip);
+      var transitCost = parseFloat($scope.transitCost);
+      console.log('compare', dollarsPerReturnTrip, transitCost)
+      if (dollarsPerReturnTrip < transitCost) {
+        $scope.suggestion = 'You should drive since you will save ' + $filter('currency')(transitCost - dollarsPerReturnTrip, '$'); 
+        //commuting is cheaper
+      } else if (dollarsPerReturnTrip > transitCost) {
+        $scope.suggestion = 'You should take transit since you will save ' + $filter('currency')(dollarsPerReturnTrip - transitCost, '$');
+      // they the same
+      } else {
+        $scope.suggestion = 'The cost is the same, do what your heart desires.'
+      }
+      $scope.showResults = true;
+      $scope.showTransitForm = false;
+    };
+    $scope.$watch('isLoading', newVal => {
+      if (!newVal) {
+        complete();
+      }
+    })    
   };
 }]);
 

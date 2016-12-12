@@ -10,55 +10,66 @@
     <script src="vendor/autocomplete.js"></script>
     <script src="vendor/distance.js"></script>
 
-    
     <script src="script.js"></script>
+
     <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>
     <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
     <link rel="stylesheet" type="text/css" href="vendor/autocomplete.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body ng-controller="mainController">
-    <div>
-      Origin
-      <!-- Start -->
-      <input type="text" 
-            g-places-autocomplete 
-            options=autocompleteOptions 
-            ng-model="origin" 
-            ng-change="onChange()"/>
-      <!-- End -->
-      Destination
-      <input type="text" 
-            g-places-autocomplete 
-            options=autocompleteOptions 
-            ng-model="destination" 
-            ng-change="onChange()"/>
-    </div>
-    
-    <!-- car info -->
-    <div>
-      Car Info: 
-      <select car-query name="car-years" id="car-years" ng-model="car.year"></select>
-      <select car-query name="car-makes" id="car-makes" ng-model="car.make"></select> 
-      <select car-query name="car-models" id="car-models" ng-model="car.model"></select>
+    <div ng-if="showCarForm">
+      <div>
+        Origin
+        <!-- Start -->
+        <input type="text" 
+              g-places-autocomplete 
+              options=autocompleteOptions 
+              ng-model="$parent.origin" 
+              ng-change="onChange()"/>
+        <!-- End -->
+        Destination
+        <input type="text" 
+              g-places-autocomplete 
+              options=autocompleteOptions 
+              ng-model="$parent.destination" 
+              ng-change="onChange()"/>
+      </div>
+      
+      <!-- car info -->
+      <div>
+        Car Info: 
+        <select car-query name="car-years" id="car-years" ng-model="$parent.car.year"></select>
+        <select car-query name="car-makes" id="car-makes" ng-model="$parent.car.make"></select> 
+        <select car-query name="car-models" id="car-models" ng-model="$parent.car.model"></select>
+      </div>
+
+      <div>
+        Parking Cost in $ per day: 
+        <input ng-model="$parent.parkingCost" value="0" type="number"/>
+      </div>
+      <button ng-click="submit()">Next</button> 
     </div>
 
-    <div>
-      Parking Cost in $ per day: 
-      <input ng-model="parkingCost" value="0" type="number"/>
-    </div>
-    <div>It will take you {{duration}}</div>
-    <div>It is {{distance}} away.</div>
-    <div>Your car does {{mpg}} MPG</div>
-    <div>Your average gas price is ¢{{gasPrice}}/L</div>
-    <div>Your cost for a return trip per day is {{dollarsPerReturnTrip | currency:"$"}}</div>
-    
-    <div>
-      <h1>Commuting stuff</h1>
-      How much do you pay for transit for a return trip each day? <input type="number" ng-model="transitCost"/> 
+    <!--commuting stuff-->
+    <div ng-if="showTransitForm">
+      <div>
+        How much do you pay for transit for a return trip each day(in CAD$)? <input type="number" ng-model="$parent.transitCost"/> 
+      </div>
+      <button ng-click="enterTransitInfo()">Calculate</button>       
     </div>
 
-    <button ng-click="submit()">Submit</button> 
+    <div ng-if="showResults && !isLoading">
+      <div>It will take you {{duration}}</div>
+      <div>It is {{distance}} away.</div>
+      <div>Your car does {{mpg}} MPG</div>
+      <div>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</div>
+      <div>Your cost for a return trip per day if you drive is {{dollarsPerReturnTrip | currency:"$"}}</div>
+      <div>Your cost for a return trip if you commute is {{transitCost | currency:"$"}}</div> 
+      <div>{{suggestion}}</div>
+    </div>  
+
+    <div ng-if="isLoading && !showTransitForm">Loading...</div>
     
   </body>
 </html>
