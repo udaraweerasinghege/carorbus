@@ -21,6 +21,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
     year: null,
     model: null
   }
+
   $scope.parkingCost = 0;
   
   $scope.autocompleteOptions = {
@@ -28,6 +29,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
   };
 
   $scope.submit = () => {
+    var carModel = document.getElementById('car-models').value;
     $scope.isLoading = true;
     $scope.showCarForm = false;
     $scope.showTransitForm = true;
@@ -36,7 +38,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
       destinations: [$scope.destination['formatted_address']]
     };
     var distanceReq = DistanceAPI.getDistanceMatrix(distanceArgs);      
-    var carInfoReq = $http.get(`https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${$scope.car.model}/${$scope.car.year}/styles?api_key=${carInfoApiKey}&view=full`);
+    var carInfoReq = $http.get(`https://api.edmunds.com/api/vehicle/v2/${$scope.car.make}/${carModel}/${$scope.car.year}/styles?api_key=${carInfoApiKey}&view=full`);
     // get city info.
     var city;
     var province;
@@ -107,7 +109,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
 app.directive('carQuery', [function() {
   return {
     restrict: 'A',
-    link: function(scope, elem, attrs) {
+    link: function() {
       var carquery = new CarQuery();
       carquery.init();
       carquery.initYearMakeModelTrim('car-years', 'car-makes', 'car-models');
