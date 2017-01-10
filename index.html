@@ -15,48 +15,65 @@
     <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>
     <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
     <link rel="stylesheet" type="text/css" href="vendor/autocomplete.css">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body ng-controller="mainController">
-    <div ng-if="showCarForm">
+
+    <div id="landing">
+        <h1>Commuter</h1>
+        <p>What’s more cost effective —
+        driving your car to work or taking the public transit?
+        </p>
+        <input type="submit" name="" value="Let's Find Out!">
+    </div>
+
+    <div ng-if="showCarForm" id="pg2">
       <div>
-        Origin
+        <h2>Origin</h2>
         <!-- Start -->
-        <input type="text" 
-              g-places-autocomplete 
-              options=autocompleteOptions 
-              ng-model="$parent.origin" 
+        <br><input type="text"
+              g-places-autocomplete
+              options=autocompleteOptions
+              ng-model="$parent.origin"
               ng-change="onChange()"/>
         <!-- End -->
-        Destination
-        <input type="text" 
-              g-places-autocomplete 
-              options=autocompleteOptions 
-              ng-model="$parent.destination" 
+        <br>
+        <h2>Destination</h2>
+        <br><input type="text"
+              g-places-autocomplete
+              options=autocompleteOptions
+              ng-model="$parent.destination"
               ng-change="onChange()"/>
       </div>
-      
+
       <!-- car info -->
       <div>
-        Car Info: 
+        <h2>Car Info</h2>
+        <br>
+        <h3>Year</h3>
         <select car-query name="car-years" id="car-years" ng-model="$parent.car.year"></select>
-        <select car-query name="car-makes" id="car-makes" ng-model="$parent.car.make"></select> 
+        <br>
+        <h3>Make</h3>
+        <select car-query name="car-makes" id="car-makes" ng-model="$parent.car.make"></select>
+        <br>
+        <h3>Model</h3>
         <select car-query name="car-models" id="car-models" ng-model="$parent.car.model"></select>
       </div>
 
       <div>
-        Parking Cost in $ per day: 
-        <input ng-model="$parent.parkingCost" value="0" type="number"/>
+        <h2>Cost of Parking per Day ($)</h2>
+        <br><input ng-model="$parent.parkingCost" value="0" type="number"/>
       </div>
-      <button ng-click="submit()">Next</button> 
+      <button ng-click="submit()">Next</button>
     </div>
 
     <!--commuting stuff-->
     <div ng-if="showTransitForm">
       <div>
-        How much do you pay for transit for a return trip each day(in CAD$)? <input type="number" ng-model="$parent.transitCost"/> 
+        <h2>How much do you pay for transit for a return trip each day(in CAD$)?</h2>
+        <input type="number" ng-model="$parent.transitCost"/>
       </div>
-      <button ng-click="enterTransitInfo()">Calculate</button>       
+      <button ng-click="enterTransitInfo()">Calculate</button>
     </div>
 
     <div ng-if="showResults && !isLoading">
@@ -65,11 +82,11 @@
       <div>Your car does {{mpg}} MPG</div>
       <div>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</div>
       <div>Your cost for a return trip per day if you drive is {{dollarsPerReturnTrip | currency:"$"}}</div>
-      <div>Your cost for a return trip if you commute is {{transitCost | currency:"$"}}</div> 
+      <div>Your cost for a return trip if you commute is {{transitCost | currency:"$"}}</div>
       <div>{{suggestion}}</div>
-    </div>  
+    </div>
 
     <div ng-if="isLoading && !showTransitForm">Loading...</div>
-    
+
   </body>
 </html>

@@ -1,0 +1,59 @@
+@import 'normalize';
+@import 'variables';
+
+body {
+    background: $blue;
+    color: white;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 1.2rem;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: normal;
+}
+
+input, select, button {
+    border: none;
+    border-radius: 3px;
+    background: white;
+}
+
+input[type=text], input[type=number], select {
+    height: 40px;
+    width: 300px;
+    padding: 10px;
+    color: $grey;
+}
+
+input[type=submit] {
+    height: 40px;
+    width: 180px;
+    color: $blue;
+    font-weight: bolder;
+}
+
+button {
+    height: 40px;
+    padding: 0 30px;
+    color: $blue;
+    font-weight: bolder;
+    margin: 20px auto;
+}
+
+#pg2 {
+    // display: none;
+}
+
+
+
+
+@import 'media_queries';
