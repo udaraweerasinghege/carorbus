@@ -16,6 +16,7 @@
     <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
     <link rel="stylesheet" type="text/css" href="vendor/autocomplete.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="images/favicon.png">
   </head>
   <body ng-controller="mainController">
 
@@ -25,6 +26,7 @@
         driving your car to work or taking the public transit?
         </p>
         <input type="submit" name="" value="Let's Find Out!">
+        <img src="images/car-icon.png" class="logo">
     </div>
 
     <div ng-if="showCarForm" id="pg2">
@@ -50,13 +52,13 @@
       <div>
         <h2>Car Info</h2>
         <br>
-        <h3>Year</h3>
+        <h3><span class="car-steps">Step 1: </span>Year</h3>
         <select car-query name="car-years" id="car-years" ng-model="$parent.car.year"></select>
         <br>
-        <h3>Make</h3>
+        <h3><span class="car-steps">Step 2: </span>Make</h3>
         <select car-query name="car-makes" id="car-makes" ng-model="$parent.car.make"></select>
         <br>
-        <h3>Model</h3>
+        <h3><span class="car-steps">Step 3: </span>Model</h3>
         <select car-query name="car-models" id="car-models" ng-model="$parent.car.model"></select>
       </div>
 
