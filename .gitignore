@@ -5,3 +5,4 @@ bs4
 *.egg-info
 .vscode
 mechanize/
+node_modules
