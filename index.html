@@ -20,12 +20,12 @@
   </head>
   <body ng-controller="mainController">
 
-    <div id="landing">
+    <div id="landing" ng-if="isOnLanding">
         <h1>Commuter</h1>
         <p>What’s more cost effective —
         driving your car to work or taking the public transit?
         </p>
-        <input type="submit" name="" value="Let's Find Out!">
+        <input type="submit" name="" value="Let's Find Out!" ng-click="showForms()">
         <img src="images/car-icon.png" class="logo">
     </div>
 

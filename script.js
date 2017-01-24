@@ -11,9 +11,10 @@ var app = angular.module('app', ['google.places', 'angular.google.distance']);
 app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', '$window', '$filter', function($scope, $http, DistanceAPI, $q, $window, $filter) {
   // set google maps to only work with canada.
   function reset() {
-    $scope.showCarForm = true;
+    $scope.showCarForm = false;
     $scope.showTransitForm = false;
     $scope.showResults = false;
+    $scope.isOnLanding = true;
   }
   reset();
   $scope.car = {
@@ -21,7 +22,10 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
     year: null,
     model: null
   }
-
+  $scope.showForms = () => {
+    $scope.isOnLanding = false;
+    $scope.showCarForm = true;
+  };
   $scope.parkingCost = 0;
   
   $scope.autocompleteOptions = {
