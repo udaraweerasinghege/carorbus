@@ -21,15 +21,20 @@
   <body ng-controller="mainController">
 
     <div id="landing" ng-if="isOnLanding">
-        <h1>Commuter</h1>
-        <p>What’s more cost effective —
-        driving your car to work or taking the public transit?
-        </p>
-        <input type="submit" name="" value="Let's Find Out!" ng-click="showForms()">
-        <img src="images/car-icon.png" class="logo">
+        <div class="home-left">
+            <h1>Commuter</h1>
+            <p class="home-tag">What’s more cost effective —
+                driving your car to work or taking the public transit?
+            </p>
+            <input type="submit" name="" value="Let's Find Out!" ng-click="showForms()">
+        </div>
+        <hr class="home-divider">
+        <div class="home-right">
+            <img src="images/car-icon.png" class="logo">
+        </div>
     </div>
 
-    <div ng-if="showCarForm" id="pg2">
+    <div ng-if="showCarForm">
       <div>
         <h2>Origin</h2>
         <!-- Start -->

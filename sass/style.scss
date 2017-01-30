@@ -39,6 +39,13 @@ input[type=submit] {
     width: 180px;
     color: $blue;
     font-weight: bolder;
+    transition: 0.1s all ease;
+    &:hover {
+        background: darken($blue, 10%);
+        color: white;
+        position: relative;
+        top: 1px;
+    }
 }
 
 button {
@@ -47,10 +54,10 @@ button {
     color: $blue;
     font-weight: bolder;
     margin: 20px auto;
-}
-
-#pg2 {
-    // display: none;
+    &:hover {
+        background: lighten($blue, 20%);
+        color: white;
+    }
 }
 
 .logo {
@@ -61,5 +68,34 @@ button {
     font-weight: bold;
 }
 
+#landing {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-divider {
+    border: none;
+    border-left: 1px solid rgba(255,255,255,0.5);
+    height: 60vh;
+    margin: 0 80px;
+}
+
+.home-left {
+    text-align: right;
+    width: 50%;
+}
+
+.home-right {
+    width: 30%;
+}
+
+.home-tag {
+    margin: 20px 0;
+    font-size: 1.3rem;
+}
 
 @import 'media_queries';
