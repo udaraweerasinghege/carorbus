@@ -34,19 +34,21 @@
         </div>
     </div>
 
-    <div ng-if="showCarForm">
-      <div>
-        <h2>Origin</h2>
+    <div ng-if="showCarForm" class="p2">
+      <div class="p2-half">
+        <h2>Step 1:</h2>
+        <h3>Where ya headed?</h3>
         <!-- Start -->
-        <br><input type="text"
+        <br>
+        <h4>Origin</h4>
+            <input type="text"
               g-places-autocomplete
               options=autocompleteOptions
               ng-model="$parent.origin"
               ng-change="onChange()"/>
         <!-- End -->
-        <br>
-        <h2>Destination</h2>
-        <br><input type="text"
+        <h4>Destination</h4>
+        <input type="text"
               g-places-autocomplete
               options=autocompleteOptions
               ng-model="$parent.destination"
@@ -54,31 +56,31 @@
       </div>
 
       <!-- car info -->
-      <div>
-        <h2>Car Info</h2>
+      <div class="p2-half">
+        <h2>Step 2:</h2>
+        <h3>Tell us about your ride.</h3>
         <br>
-        <h3><span class="car-steps">Step 1: </span>Year</h3>
+        <h4>Year</h4>
         <select car-query name="car-years" id="car-years" ng-model="$parent.car.year"></select>
         <br>
-        <h3><span class="car-steps">Step 2: </span>Make</h3>
+        <h4>Make</h4>
         <select car-query name="car-makes" id="car-makes" ng-model="$parent.car.make"></select>
         <br>
-        <h3><span class="car-steps">Step 3: </span>Model</h3>
+        <h4>Model</h4>
         <select car-query name="car-models" id="car-models" ng-model="$parent.car.model"></select>
       </div>
-
-      <div>
-        <h2>Cost of Parking per Day ($)</h2>
-        <br><input ng-model="$parent.parkingCost" value="0" type="number"/>
-      </div>
-      <button ng-click="submit()">Next</button>
+      <button ng-click="submit()" class="btn-next">Next</button>
     </div>
 
     <!--commuting stuff-->
     <div ng-if="showTransitForm">
       <div>
-        <h2>How much do you pay for transit for a return trip each day(in CAD$)?</h2>
+        <h3>How much do you pay for transit for a return trip each day(in CAD$)?</h3>
         <input type="number" ng-model="$parent.transitCost"/>
+      </div>
+      <div>
+        <h3>Cost of Parking per Day ($)</h3>
+        <br><input ng-model="$parent.parkingCost" value="0" type="number"/>
       </div>
       <button ng-click="enterTransitInfo()">Calculate</button>
     </div>

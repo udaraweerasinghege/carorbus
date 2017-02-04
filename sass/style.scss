@@ -6,6 +6,12 @@ body {
     color: white;
     font-family: 'Helvetica Neue', sans-serif;
     font-size: 1.2rem;
+    height: 100vh;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
@@ -18,6 +24,9 @@ h2 {
 
 h3 {
     font-size: 1.4rem;
+}
+
+h4 {
     font-weight: normal;
 }
 
@@ -55,8 +64,10 @@ button {
     font-weight: bolder;
     margin: 20px auto;
     &:hover {
-        background: lighten($blue, 20%);
+        background: darken($blue, 10%);
         color: white;
+        position: relative;
+        top: 1px;
     }
 }
 
@@ -96,6 +107,23 @@ button {
 .home-tag {
     margin: 20px 0;
     font-size: 1.3rem;
+}
+
+.p2 {
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.p2-half {
+flex: 50%;
+// width: 50%;
+}
+
+.btn-next {
+    // flex: 100%;
+
 }
 
 @import 'media_queries';
