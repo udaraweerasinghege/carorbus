@@ -34,6 +34,7 @@ input, select, button {
     border: none;
     border-radius: 3px;
     background: white;
+    margin: 0 auto;
 }
 
 input[type=text], input[type=number], select {
@@ -41,6 +42,7 @@ input[type=text], input[type=number], select {
     width: 300px;
     padding: 10px;
     color: $grey;
+    margin: 5px auto 10px;
 }
 
 input[type=submit] {
@@ -110,20 +112,20 @@ button {
 }
 
 .p2 {
+    margin: 0 auto;
+}
+
+.content {
+    width: 700px;
     display: -webkit-flex;
     display: -ms-flex;
     display: flex;
-    flex-wrap: wrap;
-}
-
-.p2-half {
-flex: 50%;
-// width: 50%;
+    justify-content: space-between;
 }
 
 .btn-next {
-    // flex: 100%;
-
+    margin: 30px auto 0;
+    display: block;
 }
 
 @import 'media_queries';

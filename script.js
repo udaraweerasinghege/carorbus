@@ -27,7 +27,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
     $scope.showCarForm = true;
   };
   $scope.parkingCost = 0;
-
+  $scope.transitCost = 0;
   $scope.autocompleteOptions = {
     componentRestrictions: { country: 'ca' }
   };
