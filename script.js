@@ -10,13 +10,17 @@ var app = angular.module('app', ['google.places', 'angular.google.distance']);
 // configure the module.
 app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', '$window', '$filter', function($scope, $http, DistanceAPI, $q, $window, $filter) {
   // set google maps to only work with canada.
-  function reset() {
+  $scope.reset = function() {
+    $scope.firstPageError = false;
+    $scope.secondPageError = false;
     $scope.showCarForm = false;
     $scope.showTransitForm = false;
     $scope.showResults = false;
     $scope.isOnLanding = true;
+    $scope.isLoading = false;
+    $scope.carFound = false;
   }
-  reset();
+  $scope.reset();
   $scope.car = {
     make: null,
     year: null,
@@ -33,7 +37,14 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
   };
 
   $scope.submit = () => {
+
     var carModel = document.getElementById('car-models').value;
+    if (!(!!carModel && $scope.car.year && $scope.car.make && $scope.origin && $scope.destination)) {
+      $scope.firstPageError = true;
+      return;
+    } else {
+      $scope.firstPageError = false;
+    }
     $scope.isLoading = true;
     $scope.showCarForm = false;
     $scope.showTransitForm = true;
@@ -71,6 +82,15 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
         $scope.distance = element.distance.text;
 
         var firstCar = values[1].data.styles[0];
+        if (!firstCar) {
+          $scope.carFound = false;
+          $scope.isLoading = false;
+          $scope.showResults = true;
+          $scope.showTransitForm = false;
+          return;
+        }
+        $scope.carFound = true;
+
         var mpg = (parseFloat(firstCar.MPG.city) + parseFloat(firstCar.MPG.highway)) / 2;
         $scope.mpg = mpg;
         console.log(values[2])

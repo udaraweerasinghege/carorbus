@@ -34,6 +34,7 @@
     </div>
 
     <div ng-if="showCarForm" class="p2">
+        <span ng-if="firstPageError"> YOU DUN GOOFD, FILL EVERYTHING OUT FOO</span> 
         <div class="content">
             <div class="p2-half">
                 <h2>Step 1:</h2>
@@ -87,13 +88,19 @@
         <button ng-click="enterTransitInfo()" class="btn-next">Calculate</button>
     </div>
 
-    <div ng-if="showResults && !isLoading">
+    <div ng-if="showResults && !isLoading && carFound">
         <div><h2>It will take you {{duration}} to travel {{distance}} to your destination</h2></div>
         <div><h2>Your car does {{mpg}} MPG</h2></div>
         <div><h2>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</h2></div>
         <div><h2>Your cost for a return trip per day if you drive is {{dollarsPerReturnTrip | currency:"$"}}</h2></div>
         <div><h2>Your cost for a return trip if you commute is {{transitCost | currency:"$"}}</h2></div>
         <div><h2>{{suggestion}}</h2></div>
+        <button ng-click="reset()">Reset</button>
+    </div>
+
+    <div ng-if="showResults && !isLoading && !carFound">
+        <div><h2>Couldn't find your car derp...</h2></div>
+        <button ng-click="reset()">Reset</button>        
     </div>
 
     <div ng-if="isLoading && !showTransitForm"><h2>Loading...</h2></div>
