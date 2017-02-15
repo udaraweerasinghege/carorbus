@@ -88,13 +88,13 @@
         <button ng-click="enterTransitInfo()" class="btn-next">Calculate</button>
     </div>
 
-    <div ng-if="showResults && !isLoading && carFound">
-        <div><h2>It will take you {{duration}} to travel {{distance}} to your destination</h2></div>
-        <div><h2>Your car does {{mpg}} MPG</h2></div>
-        <div><h2>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</h2></div>
-        <div><h2>Your cost for a return trip per day if you drive is {{dollarsPerReturnTrip | currency:"$"}}</h2></div>
-        <div><h2>Your cost for a return trip if you commute is {{transitCost | currency:"$"}}</h2></div>
-        <div><h2>{{suggestion}}</h2></div>
+    <div ng-if="showResults && !isLoading && carFound" class="results">
+        <p>Your car does {{mpg}} MPG</p>
+        <p>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</p>
+        <p>It will take you approximately {{duration}} to travel {{distance}} to your destination</p>
+        <p>Your cost for a return trip per day if you drive is {{dollarsPerReturnTrip | currency:"$"}}</p>
+        <p>Your cost for a return trip if you commute is {{transitCost | currency:"$"}}</p>
+        <p>{{suggestion}}</p>
         <button class="btn-next" ng-click="reset()">Reset</button>
     </div>
 

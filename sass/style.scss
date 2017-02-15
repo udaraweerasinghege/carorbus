@@ -128,4 +128,11 @@ button {
     display: block;
 }
 
+.results {
+    h2 {
+        font-size: 1.8rem;
+        font-weight: normal;
+    }
+}
+
 @import 'media_queries';

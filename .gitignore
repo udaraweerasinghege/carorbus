@@ -6,3 +6,5 @@ bs4
 .vscode
 mechanize/
 node_modules
+style.css
+style.css.map
