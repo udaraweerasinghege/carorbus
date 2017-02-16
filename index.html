@@ -35,37 +35,37 @@
 
     <div ng-if="showCarForm" class="p2">
         <span ng-if="firstPageError"> YOU DUN GOOFD, FILL EVERYTHING OUT FOO</span>
-        <div class="content">
             <form ng-submit="submit()">
-                <div class="p2-half">
-                    <h2>Step 1:</h2>
-                    <h3>Where ya headed?</h3>
-                    <!-- Start -->
-                    <br>
-                    <h4>Origin</h4>
-                    <input type="text" g-places-autocomplete options=autocompleteOptions ng-model="$parent.origin" ng-change="onChange()" required/>
-                    <!-- End -->
-                    <h4>Destination</h4>
-                    <input type="text" g-places-autocomplete options=autocompleteOptions ng-model="$parent.destination" ng-change="onChange()" required/>
-                </div>
+                <div class="content">
+                    <div class="p2-half">
+                        <h2>Step 1:</h2>
+                        <h3>Where ya headed?</h3>
+                        <!-- Start -->
+                        <br>
+                        <h4>Origin</h4>
+                        <input type="text" g-places-autocomplete options=autocompleteOptions ng-model="$parent.origin" ng-change="onChange()" required/>
+                        <!-- End -->
+                        <h4>Destination</h4>
+                        <input type="text" g-places-autocomplete options=autocompleteOptions ng-model="$parent.destination" ng-change="onChange()" required/>
+                    </div>
 
-            <!-- car info -->
-                <div class="p2-half">
-                    <h2>Step 2:</h2>
-                    <h3>Tell us about your ride.</h3>
-                    <br>
-                    <h4>Year</h4>
-                    <select car-query name="car-years" id="car-years" ng-model="$parent.car.year" required></select>
-                    <br>
-                    <h4>Make</h4>
-                    <select car-query name="car-makes" id="car-makes" ng-model="$parent.car.make" required></select>
-                    <br>
-                    <h4>Model</h4>
-                    <select car-query name="car-models" id="car-models" ng-model="$parent.car.model" required></select>
+                <!-- car info -->
+                    <div class="p2-half">
+                        <h2>Step 2:</h2>
+                        <h3>Tell us about your ride.</h3>
+                        <br>
+                        <h4>Year</h4>
+                        <select car-query name="car-years" id="car-years" ng-model="$parent.car.year" required></select>
+                        <br>
+                        <h4>Make</h4>
+                        <select car-query name="car-makes" id="car-makes" ng-model="$parent.car.make" required></select>
+                        <br>
+                        <h4>Model</h4>
+                        <select car-query name="car-models" id="car-models" ng-model="$parent.car.model" required></select>
+                    </div>
                 </div>
-                <button type="submit" class="btn-next">Next</button>        
-            </form>
-        </div>
+            <button type="submit" class="btn-next">Next</button>
+        </form>
     </div>
 
     <!--commuting stuff-->
@@ -91,18 +91,30 @@
     </div>
 
     <div ng-if="showResults && !isLoading && carFound" class="results">
-        <p>Your car does {{mpg}} MPG</p>
-        <p>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</p>
-        <p>It will take you approximately {{duration}} to travel {{distance}} to your destination</p>
-        <p>Your cost for a return trip per day if you drive is {{dollarsPerReturnTrip | currency:"$"}}</p>
-        <p>Your cost for a return trip if you commute is {{transitCost | currency:"$"}}</p>
-        <p>{{suggestion}}</p>
+        <div class="content results">
+            <div class="results-left">
+                <!-- <img src="images/car.png" alt="" class="car-img"> -->
+                <!-- <img src="images/bus.png" alt="" class="bus-img"> -->
+                <img src="images/car-icon.png" alt="" class="car-or-bus-img">
+            </div>
+            <hr class="results-divider">
+            <div class="results-right">
+                <h2>Driving wins!</h2>
+                <!-- <h2>Transit wins!</h2> -->
+                <p>Your car does {{mpg}} MPG</p>
+                <p>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</p>
+                <p>It will take you about {{duration}} to travel {{distance}} to your destination</p>
+                <p>The cost for a return trip if you drive is {{dollarsPerReturnTrip | currency:"$"}}</p>
+                <p>The cost for a return trip if you take the transit is {{transitCost | currency:"$"}}</p>
+                <p>{{suggestion}}</p>
+            </div>
+        </div>
         <button class="btn-next" ng-click="reset()">Reset</button>
     </div>
 
     <div ng-if="showResults && !isLoading && !carFound">
-        <div><h2>Couldn't find your car derp...</h2></div>
-        <button ng-click="reset()">Reset</button>
+        <div><h2>Derp, couldn't find your car...</h2></div>
+        <button class="btn-next" ng-click="reset()">Reset</button>
     </div>
 
     <div ng-if="isLoading && !showTransitForm"><h2>Loading...</h2></div>

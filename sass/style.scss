@@ -90,11 +90,18 @@ button {
     justify-content: center;
 }
 
-.home-divider {
+.home-divider, .results-divider {
     border: none;
     border-left: 1px solid rgba(255,255,255,0.5);
     height: 60vh;
+}
+
+.home-divider {
     margin: 0 80px;
+}
+
+.results-divider {
+    margin: 0 50px;
 }
 
 .home-left {
@@ -129,10 +136,30 @@ button {
 }
 
 .results {
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
     h2 {
-        font-size: 1.8rem;
-        font-weight: normal;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
     }
+    p {
+        font-size: 1.3rem;
+        font-weight: normal;
+        line-height: 1.5;
+    }
+}
+
+.results-right {
+    min-width: 500px;
+}
+
+.car-or-bus-img {
+    max-height: 100px;
+}
+
+.car-img, .bus-img {
+    max-width: 150px;
 }
 
 @import 'media_queries';

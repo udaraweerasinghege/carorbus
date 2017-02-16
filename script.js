@@ -107,10 +107,10 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
       var transitCost = parseFloat($scope.transitCost);
       console.log('compare', dollarsPerReturnTrip, transitCost)
       if (dollarsPerReturnTrip < transitCost) {
-        $scope.suggestion = 'You should drive since you will save ' + $filter('currency')(transitCost - dollarsPerReturnTrip, '$');
+        $scope.suggestion = 'Driving your car will save you ' + $filter('currency')(transitCost - dollarsPerReturnTrip, '$');
         //commuting is cheaper
       } else if (dollarsPerReturnTrip > transitCost) {
-        $scope.suggestion = 'You should take transit since you will save ' + $filter('currency')(dollarsPerReturnTrip - transitCost, '$');
+        $scope.suggestion = 'Taking the transit will save you ' + $filter('currency')(dollarsPerReturnTrip - transitCost, '$');
       // they the same
       } else {
         $scope.suggestion = 'The cost is the same, do what your heart desires.'
