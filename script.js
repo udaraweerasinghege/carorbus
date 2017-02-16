@@ -39,12 +39,8 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
   $scope.submit = () => {
 
     var carModel = document.getElementById('car-models').value;
-    if (!(!!carModel && $scope.car.year && $scope.car.make && $scope.origin && $scope.destination)) {
-      $scope.firstPageError = true;
-      return;
-    } else {
-      $scope.firstPageError = false;
-    }
+
+    $scope.firstPageError = false;
     $scope.isLoading = true;
     $scope.showCarForm = false;
     $scope.showTransitForm = true;

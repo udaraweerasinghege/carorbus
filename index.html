@@ -36,34 +36,36 @@
     <div ng-if="showCarForm" class="p2">
         <span ng-if="firstPageError"> YOU DUN GOOFD, FILL EVERYTHING OUT FOO</span>
         <div class="content">
-            <div class="p2-half">
-                <h2>Step 1:</h2>
-                <h3>Where ya headed?</h3>
-                <!-- Start -->
-                <br>
-                <h4>Origin</h4>
-                <input type="text" g-places-autocomplete options=autocompleteOptions ng-model="$parent.origin" ng-change="onChange()" />
-                <!-- End -->
-                <h4>Destination</h4>
-                <input type="text" g-places-autocomplete options=autocompleteOptions ng-model="$parent.destination" ng-change="onChange()" />
-            </div>
+            <form ng-submit="submit()">
+                <div class="p2-half">
+                    <h2>Step 1:</h2>
+                    <h3>Where ya headed?</h3>
+                    <!-- Start -->
+                    <br>
+                    <h4>Origin</h4>
+                    <input type="text" g-places-autocomplete options=autocompleteOptions ng-model="$parent.origin" ng-change="onChange()" required/>
+                    <!-- End -->
+                    <h4>Destination</h4>
+                    <input type="text" g-places-autocomplete options=autocompleteOptions ng-model="$parent.destination" ng-change="onChange()" required/>
+                </div>
 
-        <!-- car info -->
-            <div class="p2-half">
-                <h2>Step 2:</h2>
-                <h3>Tell us about your ride.</h3>
-                <br>
-                <h4>Year</h4>
-                <select car-query name="car-years" id="car-years" ng-model="$parent.car.year"></select>
-                <br>
-                <h4>Make</h4>
-                <select car-query name="car-makes" id="car-makes" ng-model="$parent.car.make"></select>
-                <br>
-                <h4>Model</h4>
-                <select car-query name="car-models" id="car-models" ng-model="$parent.car.model"></select>
-            </div>
+            <!-- car info -->
+                <div class="p2-half">
+                    <h2>Step 2:</h2>
+                    <h3>Tell us about your ride.</h3>
+                    <br>
+                    <h4>Year</h4>
+                    <select car-query name="car-years" id="car-years" ng-model="$parent.car.year" required></select>
+                    <br>
+                    <h4>Make</h4>
+                    <select car-query name="car-makes" id="car-makes" ng-model="$parent.car.make" required></select>
+                    <br>
+                    <h4>Model</h4>
+                    <select car-query name="car-models" id="car-models" ng-model="$parent.car.model" required></select>
+                </div>
+                <button type="submit" class="btn-next">Next</button>        
+            </form>
         </div>
-        <button ng-click="submit()" class="btn-next">Next</button>
     </div>
 
     <!--commuting stuff-->
