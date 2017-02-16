@@ -92,9 +92,9 @@
     <div ng-if="showResults && !isLoading && carFound" class="results">
         <div class="content results">
             <div class="results-left">
-                <!-- <img src="images/car.png" alt="" class="car-img"> -->
-                <!-- <img src="images/bus.png" alt="" class="bus-img"> -->
-                <img src="images/car-icon.png" alt="" class="car-or-bus-img">
+                <img ng-if="winner === 'car'" src="images/car.png" alt="" class="car-img"> 
+                <img ng-if="winner === 'bus'" src="images/bus.png" alt="" class="bus-img"> 
+                <img ng-if="winner ==='equal'" src="images/car-icon.png" alt="" class="car-or-bus-img">
             </div>
             <hr class="results-divider">
             <div class="results-right">

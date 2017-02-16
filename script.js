@@ -19,6 +19,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
     $scope.isOnLanding = true;
     $scope.isLoading = false;
     $scope.carFound = false;
+    $scope.winner = undefined;
   }
   $scope.reset();
   $scope.car = {
@@ -81,8 +82,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
         if (!firstCar) {
           $scope.carFound = false;
           $scope.isLoading = false;
-          $scope.showResults = true;
-          $scope.showTransitForm = false;
+          console.log('couldnt find car');
           return;
         }
         $scope.carFound = true;
@@ -107,12 +107,15 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
       var transitCost = parseFloat($scope.transitCost);
       console.log('compare', dollarsPerReturnTrip, transitCost)
       if (dollarsPerReturnTrip < transitCost) {
+        $scope.winner = 'car'
         $scope.suggestion = 'Driving your car will save you ' + $filter('currency')(transitCost - dollarsPerReturnTrip, '$');
         //commuting is cheaper
       } else if (dollarsPerReturnTrip > transitCost) {
+        $scope.winner = 'bus'
         $scope.suggestion = 'Taking the transit will save you ' + $filter('currency')(dollarsPerReturnTrip - transitCost, '$');
       // they the same
-      } else {
+    } else {
+        $scope.winner = 'equal';
         $scope.suggestion = 'The cost is the same, do what your heart desires.'
       }
       $scope.showResults = true;
