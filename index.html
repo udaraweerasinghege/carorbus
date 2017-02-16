@@ -98,8 +98,9 @@
             </div>
             <hr class="results-divider">
             <div class="results-right">
-                <h2>Driving wins!</h2>
-                <!-- <h2>Transit wins!</h2> -->
+                <h2 ng-if="winner==='car'">Driving wins!</h2>
+                <h2 ng-if="winner==='bus'">Transit wins!</h2> 
+                <h2 ng-if="winner==='equal'">It's all the same!</h2> 
                 <p>Your car does {{mpg}} MPG</p>
                 <p>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</p>
                 <p>It will take you about {{duration}} to travel {{distance}} to your destination</p>

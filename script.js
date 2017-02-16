@@ -111,6 +111,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
         $scope.suggestion = 'Driving your car will save you ' + $filter('currency')(transitCost - dollarsPerReturnTrip, '$');
         //commuting is cheaper
       } else if (dollarsPerReturnTrip > transitCost) {
+        console.log('BUS WON');
         $scope.winner = 'bus'
         $scope.suggestion = 'Taking the transit will save you ' + $filter('currency')(dollarsPerReturnTrip - transitCost, '$');
       // they the same
