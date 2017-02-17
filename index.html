@@ -31,7 +31,7 @@
     <div id="landing" ng-if="isOnLanding">
         <div class="home-left">
             <h1>Commuter</h1>
-            <p class="home-tag">What’s more cost effective — driving your car to work or taking the public transit?
+            <p class="home-tag">What’s more cost effective — driving your car to work or taking public transit?
             </p>
             <input type="submit" name="" value="Let's Find Out!" ng-click="showForms()">
         </div>
@@ -114,7 +114,7 @@
                 <p>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</p>
                 <p>It will take you about {{duration}} to drive {{distance}} to your destination</p>
                 <p>The cost for a return trip if you drive is {{dollarsPerReturnTrip | currency:"$"}}</p>
-                <p>The cost for a return trip if you take the transit is {{transitCost | currency:"$"}}</p>
+                <p>The cost for a return trip if you take transit is {{transitCost | currency:"$"}}</p>
                 <p>{{suggestion}}</p>
             </div>
         </div>

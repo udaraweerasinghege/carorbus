@@ -113,7 +113,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
       } else if (dollarsPerReturnTrip > transitCost) {
         console.log('BUS WON');
         $scope.winner = 'bus'
-        $scope.suggestion = 'Taking the transit will save you ' + $filter('currency')(dollarsPerReturnTrip - transitCost, '$');
+        $scope.suggestion = 'Taking transit will save you ' + $filter('currency')(dollarsPerReturnTrip - transitCost, '$');
       // they the same
     } else {
         $scope.winner = 'equal';
