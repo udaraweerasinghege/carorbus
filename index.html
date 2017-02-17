@@ -6,13 +6,22 @@
     <title>Commuter</title>
     <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>
     <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAtnmBPSVsNzVGkxUkbWyah7Ddwf1V_Szs"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="vendor/autocomplete.js"></script>
     <script src="vendor/distance.js"></script>
     <script src="script.js"></script>
     <script type="text/javascript" src="http://www.carqueryapi.com/js/jquery.min.js"></script>
     <script type="text/javascript" src="http://www.carqueryapi.com/js/carquery.0.3.4.js"></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-56568924-5', 'auto');
+        ga('send', 'pageview');
+    </script>   
     <link rel="stylesheet" type="text/css" href="vendor/autocomplete.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="shortcut icon" href="images/favicon.png">
@@ -22,7 +31,7 @@
     <div id="landing" ng-if="isOnLanding">
         <div class="home-left">
             <h1>Commuter</h1>
-            <p class="home-tag">What’s more cost effective — driving your car to work or taking the public transit?
+            <p class="home-tag">What’s more cost effective — driving your car to work or taking public transit?
             </p>
             <input type="submit" name="" value="Let's Find Out!" ng-click="showForms()">
         </div>
@@ -105,7 +114,7 @@
                 <p>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</p>
                 <p>It will take you about {{duration}} to drive {{distance}} to your destination</p>
                 <p>The cost for a return trip if you drive is {{dollarsPerReturnTrip | currency:"$"}}</p>
-                <p>The cost for a return trip if you take the transit is {{transitCost | currency:"$"}}</p>
+                <p>The cost for a return trip if you take transit is {{transitCost | currency:"$"}}</p>
                 <p>{{suggestion}}</p>
             </div>
         </div>
