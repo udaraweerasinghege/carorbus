@@ -101,7 +101,7 @@ button {
 }
 
 .results-divider {
-    margin: 0 50px;
+    margin: 0 80px;
 }
 
 .home-left {
@@ -139,6 +139,7 @@ button {
     align-items: center;
     width: 80%;
     margin: 0 auto;
+    justify-content: center;
     h2 {
         font-size: 2.5rem;
         margin-bottom: 20px;
@@ -151,7 +152,7 @@ button {
 }
 
 .results-right {
-    min-width: 500px;
+    min-width: 600px;
 }
 
 .car-or-bus-img {
@@ -170,10 +171,20 @@ footer {
     text-align: center;
     width: 100%;
     p {
-        font-size: 0.5rem;
         opacity: 0.5;
+        font-size: 0.5rem;
         display: inline-block;
         margin: 0px 5px;
+    }
+    a {
+        color: white;
+        text-decoration: none;
+        border-bottom: 1px solid white;
+        padding-bottom: 1px;
+        transition: 0.2s all ease;
+        &:hover {
+            opacity: 0.7;
+        }
     }
 }
 

@@ -92,18 +92,18 @@
     <div ng-if="showResults && !isLoading && carFound" class="results">
         <div class="content results">
             <div class="results-left">
-                <img ng-if="winner === 'car'" src="images/car.png" alt="" class="car-img"> 
-                <img ng-if="winner === 'bus'" src="images/bus.png" alt="" class="bus-img"> 
+                <img ng-if="winner === 'car'" src="images/car.png" alt="" class="car-img">
+                <img ng-if="winner === 'bus'" src="images/bus.png" alt="" class="bus-img">
                 <img ng-if="winner ==='equal'" src="images/car-icon.png" alt="" class="car-or-bus-img">
             </div>
             <hr class="results-divider">
             <div class="results-right">
                 <h2 ng-if="winner==='car'">Driving wins!</h2>
-                <h2 ng-if="winner==='bus'">Transit wins!</h2> 
-                <h2 ng-if="winner==='equal'">It's all the same!</h2> 
+                <h2 ng-if="winner==='bus'">Transit wins!</h2>
+                <h2 ng-if="winner==='equal'">It's all the same!</h2>
                 <p>Your car does {{mpg}} MPG</p>
                 <p>The average gas price in your city of origin {{gasPrice | currency:"¢"}}/L</p>
-                <p>It will take you about {{duration}} to travel {{distance}} to your destination</p>
+                <p>It will take you about {{duration}} to drive {{distance}} to your destination</p>
                 <p>The cost for a return trip if you drive is {{dollarsPerReturnTrip | currency:"$"}}</p>
                 <p>The cost for a return trip if you take the transit is {{transitCost | currency:"$"}}</p>
                 <p>{{suggestion}}</p>
@@ -120,9 +120,11 @@
     <div ng-if="isLoading && !showTransitForm"><h2>Loading...</h2></div>
 
 <footer>
-    <p>Created by: Udara & Meagan</p>
-    <p>//</p>
-    <p>Images from: Flaticon.com</p>
+    <p>Created by: <a href="http://udaraw.com" target="_blank">Udara</a> & <a href="http://meaganpau.com" target="_blank">Meagan</a></p>
+    <p>⎸</p>
+    <p>Powered by: <a href="http://developer.edmunds.com/">Edmunds API</a></p>
+    <p>⎸</p>
+    <p>Images from: <a href="https://thenounproject.com/">The Noun Project</a></p>
 </footer>
 
 
