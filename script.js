@@ -5,7 +5,7 @@ var gMapsKey = 'AIzaSyB27bkDRtChsWGdiCa1uPPSMqX0z1S0c2E';
 var gasPriceAPI = 'https://wcypeu4s4j.execute-api.us-west-2.amazonaws.com/prod/lambda_handler';
 var KMPL_MULTIPLIER = 0.4251;
 var app = angular.module('app', ['google.places', 'angular.google.distance']);
-
+var listener;
 
 // configure the module.
 app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', '$window', '$filter', function($scope, $http, DistanceAPI, $q, $window, $filter) {
@@ -121,8 +121,9 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
       }
       $scope.showResults = true;
       $scope.showTransitForm = false;
+      listener();
     };
-    $scope.$watch('isLoading', newVal => {
+    listener = $scope.$watch('isLoading', newVal => {
       if (!newVal) {
         complete();
       }
