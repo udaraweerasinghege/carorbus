@@ -20,7 +20,12 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
     $scope.isLoading = false;
     $scope.carFound = false;
     $scope.winner = undefined;
+    $scope.deleteCookie('cq-settings');
   }
+  $scope.deleteCookie = function(name) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
   $scope.reset();
   $scope.car = {
     make: null,
@@ -63,7 +68,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
       }
 
     }
-    console.log(city, province);
+    // console.log(city, province);
     var location = `${city}, ${province}`
     var gasReq = $http.post(gasPriceAPI, {"postal_code": location}, {"Headers": {"Content-Type": "application/json"}})
 
@@ -72,7 +77,7 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
       .then(function(values) {
         // console.log(values);
         // this will have lat and long
-        console.log(values);
+        // console.log(values);
         var distanceMatrixResp = values[0];
         var element = distanceMatrixResp.rows[0].elements[0];
         $scope.duration = element.duration.text;
@@ -82,14 +87,14 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
         if (!firstCar) {
           $scope.carFound = false;
           $scope.isLoading = false;
-          console.log('couldnt find car');
+          // console.log('couldnt find car');
           return;
         }
         $scope.carFound = true;
 
         var mpg = (parseFloat(firstCar.MPG.city) + parseFloat(firstCar.MPG.highway)) / 2;
         $scope.mpg = mpg;
-        console.log(values[2])
+        // console.log(values[2])
         this.kmpl = parseFloat(mpg) * KMPL_MULTIPLIER;
         $scope.gasPrice = values[2].data.body;
         this.centsPerKm = parseFloat($scope.gasPrice) / parseFloat(this.kmpl);
@@ -105,13 +110,13 @@ app.controller('mainController', ['$scope', '$http', 'GoogleDistanceAPI', '$q', 
     function complete() {
       var dollarsPerReturnTrip = parseFloat($scope.dollarsPerReturnTrip);
       var transitCost = parseFloat($scope.transitCost);
-      console.log('compare', dollarsPerReturnTrip, transitCost)
+      // console.log('compare', dollarsPerReturnTrip, transitCost)
       if (dollarsPerReturnTrip < transitCost) {
         $scope.winner = 'car'
         $scope.suggestion = 'Driving your car will save you ' + $filter('currency')(transitCost - dollarsPerReturnTrip, '$');
         //commuting is cheaper
       } else if (dollarsPerReturnTrip > transitCost) {
-        console.log('BUS WON');
+        // console.log('BUS WON');
         $scope.winner = 'bus'
         $scope.suggestion = 'Taking transit will save you ' + $filter('currency')(dollarsPerReturnTrip - transitCost, '$');
       // they the same
